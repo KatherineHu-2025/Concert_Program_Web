@@ -1,5 +1,5 @@
 import NavBar from '../components/NavBar';
-import ConcertCard from '../components/ConcertCard';
+// import ConcertCard from '../components/ConcertCard';
 import Dashboard from '../components/Dashboard';
 import styles from '../styles/HomePage.module.css';
 
