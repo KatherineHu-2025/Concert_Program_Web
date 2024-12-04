@@ -8,7 +8,6 @@ import {
     Timestamp,
     deleteDoc,
     doc,
-    query,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { auth } from "../firebaseConfig";
