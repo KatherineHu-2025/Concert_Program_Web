@@ -26,21 +26,25 @@ const LoginOrSignUp = () => {
         setError(null);
     
         try {
-            const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-            console.log("Sign-in methods:", signInMethods); // Debugging log
-            if (signInMethods.length > 0) {
-                // Email exists, proceed with login
-                setIsExistingUser(true);
+            const normalizedEmail = email.trim().toLowerCase();
+            const signInMethods = await fetchSignInMethodsForEmail(auth, normalizedEmail);
+            console.log("Sign-in methods for email:", signInMethods); // Debugging log
+    
+            if (signInMethods.includes("password")) {
+                setIsExistingUser(true); // Email exists with password sign-in
+            } else if (signInMethods.includes("google.com")) {
+                setError("This email is registered with Google Sign-In. Please use that method.");
+                setIsExistingUser(null); // Reset user flow
             } else {
-                // New email, proceed with signup
-                setIsExistingUser(false);
+                setIsExistingUser(false); // Email does not exist
             }
-            setShowPasswordInput(true); // Show password input only after checking email
+            setShowPasswordInput(true);
         } catch (err) {
+            console.error("Error fetching sign-in methods:", err);
             if (err instanceof FirebaseError) {
                 setError(err.message);
             } else {
-                setError("An unexpected error occurred");
+                setError("An unexpected error occurred. Please try again.");
             }
         }
     };
